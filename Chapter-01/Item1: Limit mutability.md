@@ -55,11 +55,11 @@ println(account.balance) // 50.0
 ## 가변성 제한하기
 
 코틀린은 가변성을 제한할 수 있음
-- 상수, 읽기 전용 프로퍼티 (val)
+- 읽기 전용 프로퍼티 (val)
 - 가변 컬렉션과 읽기 전용 컬렉션 구분하기 (ex: MutableList, List, MutableSet, Set..)
 - 데이터 클래스의 copy
 
-1. 상수
+1. 읽기 전용 프로퍼티
 - 일반적인 방법으로는 값이 변하지 않음
 - 완전히 변경 불가능한 건 아님, mutable 객체를 담고 있으면 내부적으로 변경 가능
 ```kotlin
@@ -129,6 +129,19 @@ names += "Bill" // Names changed from [Fabio] to [Fabio, Bill]
 
 - mutable 객체를 외부에 노출하지 않기.
     - copy를 사용하거나, upcast하여 가변성 제한하기
+
+- data 한정자, class의 생성자들 프로퍼티 일부만 바꿔서 새로운 객체를 만들때 하나하나 작업하는건 귀찮은 일이기에 data 한정자의 copy 메서드는 좋은 역활
+
+```kotlin
+	val a = mutableListOf()
+	var b = listOf()
+
+	a.add(1)
+	b = b + 1
+```
+저둘의 차이가 뭘까?
+
+a는 리스트 구현 내부에 변경 가능 지점이 있지만, b는 현재보고있는 프로퍼티 자체가 변경 가능 지점이다. 그렇기 때문에 안전성이 더 높다.
 
 ### 정리
 - var보다 val을 선호.
